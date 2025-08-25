@@ -1,25 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lesson69/core/dependensies/root_dependency_provider.dart';
+import 'package:lesson69/core/dependencies/root_dependency_provider.dart';
 import 'package:lesson69/feature/todo/model/repositories/todo_repository.dart';
+
 part 'todo_create_state.dart';
 
 class TodoCreateNotifier extends Notifier<TodoCreateState> {
   late final TodoRepository _repository;
 
   @override
-  TodoInitialState build() {
+  TodoCreateInitialState build() {
     _repository = ref.read(dependencyProvider).todoRepository;
-    return TodoInitialState();
+    return TodoCreateInitialState();
   }
 
   Future<void> fetch(String title) async {
-    state = TodoLoadingState();
+    state = TodoCreateLoadingState();
     try {
       await _repository.create(title);
-      state = TodoLoadedlState();
+      state = TodoCreateLoadedState();
     } catch (err) {
-      state = TodoExceptionState();
+      state = TodoCreateExceptionState();
     }
   }
 }
-

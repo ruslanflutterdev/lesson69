@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:lesson69/feature/todo/model/database/todo_table.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../feature/todo/model/database/todo_table.dart';
 
 part 'database.g.dart';
 

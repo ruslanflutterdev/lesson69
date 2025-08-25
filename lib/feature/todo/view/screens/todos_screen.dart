@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lesson69/core/database/database.dart';
+import 'package:lesson69/core/navigator/routers.dart';
 import 'package:lesson69/feature/todo/viewmodel/controllers/todos/todos_notifier.dart';
 import 'package:lesson69/feature/todo/viewmodel/providers/todos_provider.dart';
-
-import '../../../../core/navigator/routes.dart';
 
 class TodosScreen extends ConsumerStatefulWidget {
   const TodosScreen({super.key});
@@ -26,10 +26,13 @@ class _TodosScreenState extends ConsumerState<TodosScreen> {
     ref.read(todosProvider.notifier).fetch();
   }
 
-  Future<void> _toCreateTodo() async{
-    await Navigator.pushNamed(context, Routes.create);
-    _fetch();
+  void _toCreateTodo() {
+    Navigator.pushNamed(context, Routes.create);
   }
+
+  VoidCallback _toUpdateScreen(TodoTableData todo) => () {
+    Navigator.of(context).pushNamed(Routes.update, arguments: todo);
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +44,16 @@ class _TodosScreenState extends ConsumerState<TodosScreen> {
       body: switch (todosState) {
         TodosLoadingState() ||
         TodosInitialState() => Center(child: CupertinoActivityIndicator()),
-
-        TodosLoadedlState() => ListView.builder(
+        TodosLoadedState() => ListView.builder(
           itemCount: todosState.todos.length,
           itemBuilder: (context, index) {
             final todo = todosState.todos[index];
-            return ListTile(title: Text(todo.title),);
+            return ListTile(
+              title: Text(todo.title),
+              onTap: _toUpdateScreen(todo),
+            );
           },
         ),
-
         TodosExceptionState() => Text('Exception'),
       },
     );

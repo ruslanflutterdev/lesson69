@@ -4,10 +4,10 @@ sealed class TodosState {}
 
 final class TodosInitialState extends TodosState {}
 
-final class TodosLoadedlState extends TodosState {
+final class TodosLoadedState extends TodosState {
   final List<TodoTableData> todos;
 
-  TodosLoadedlState(this.todos);
+  TodosLoadedState(this.todos);
 }
 
 final class TodosExceptionState extends TodosState {}
